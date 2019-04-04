@@ -1,34 +1,24 @@
-# INFRA for small projects
+# Infrastructure
 
-## 1. Prerequisites
+This project allows to quickly organize you CI/CD pipeline with gitea, drone and registry. This solution is aimed for small teams and projects
 
-Install following
-- docker
-- docker-compose
+### Prerequisites:
+- installed `docker` and `docker-compose`. Guides can be found at official sites: https://docs.docker.com/. Or for ubuntu one can use `install-script.sh` from the root of the project
 
-## 2. Start
+### Starting the project
+- create file `.env` in the project's root. it should contain ip address of your docker-host. Or if you have DNS server up you can use dns-name
+```bash
+DC_HOST=127.0.0.1
+```
+1. run `docker-compose up -d`
+2. open `http://your_docker_host:3000` in browser click `Sign In`. This will configure gitea server (Do not forget to create administrative account). Create git project(s)
+3. open `http://your_docker_host` and login to drone server with gitea credentials. Activate required projects
 
-Run `./start.sh`. In case selinux is disabled in your system delete related lines in start script. Following apps are available:
-- port 8000: [gitea](https://gitea.io) - version control system
-- port 8001: [jenkins](https://jenkins.io) - CI/CD server
-- port 8002: [sonar](https://www.sonarqube.org/) - continuous code quality server
-- port 8003: [minio](https://www.minio.io/) - storage service
+### Sample project
 
-## 3. Config steps
+There is sample project in the `sample` folder that does this:
+- builds image and pushes to local insecure registry on commit to master
+- starts docker compose with project on tag
 
-- Configure **gitea**
-    1. open `http://localhost:8000` choose postgres as DB. Host - db:5432, user - gites, password - gitea
-- Configure **jenkins**
-    1. in terminal from project root `cat data/jenkins/secrets/initialAdminPassword`
-    3. open `http://localhost:8001`, follow onscreen instructions
-    3. add host machine as jenkins node if you want to use pipelines
-- Configure **sonar**:
-    1. open `http://localhost:8002`, login as admin/admin.
-    2. go to Administration->Configuration->TypeScript and enter "Rule Collection Name" - "TsLint" and "Path to tslint" - `/usr/bin/tslint` and save all
-- Configure **minio**
-    1. open `http://localhost:8002`, login as admin/admin (keys can be found in `docker-compose.yml`)
-    3. no config is required 
-
-## 4. Todo
-- add sample backend project with jenkins pipeline
-- add sample frontend project with jenkins pipeline
+### TODO
+1. use secure registry 

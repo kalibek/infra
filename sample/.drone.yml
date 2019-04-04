@@ -1,0 +1,21 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build
+  image: plugins/docker
+  settings:
+    repo: ${DRONE_SYSTEM_HOST}:5000/health
+    registry: ${DRONE_SYSTEM_HOST}:5000
+    insecure: true
+  when:
+    branch:
+      - master
+- name: deploy
+  when:
+    event: tag
+  image: docker/compose:1.24.0
+  commands:
+    - export DOCKER_HOST=tcp://${DRONE_SYSTEM_HOST}:2375
+    - docker-compose pull
+    - docker-compose up -d
