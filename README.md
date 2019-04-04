@@ -8,7 +8,7 @@ This project allows to quickly organize you CI/CD pipeline with [gitea](https://
 ### Starting the project
 - create file `.env` in the project's root. it should contain ip address of your docker-host. Or if you have DNS server up you can use dns-name
 ```bash
-DC_HOST=127.0.0.1
+DC_HOST=XXX.XXX.XXX.XXX
 ```
 1. run `docker-compose up -d`
 2. open `http://your_docker_host:3000` in browser click `Sign In`. This will configure gitea server (Do not forget to create administrative account). Create git project(s)
