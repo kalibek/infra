@@ -46,7 +46,6 @@ services:
       - DRONE_SERVER_HOST=${DC_HOST}
       - DRONE_SERVER_PROTO=http
       - DRONE_TLS_AUTOCERT=false
-      - DRONE_NETWORK=gitea-network
     ports:
       - "80:80"
       - "443:443"
