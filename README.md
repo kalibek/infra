@@ -4,6 +4,7 @@ This project allows to quickly organize you CI/CD pipeline with [gitea](https://
 
 ### Prerequisites:
 - installed `docker` and `docker-compose`. Guides can be found at official sites: https://docs.docker.com/. Or for ubuntu one can use `install-script.sh` from the root of the project
+- docker should listen on both tcp socket and unix socket [see](https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd)
 
 ### Starting the project
 1. create file `.env` in the project's root. it should contain ip address of your docker-host. Or if you have DNS server up you can use dns-name
