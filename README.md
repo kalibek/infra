@@ -1,6 +1,6 @@
 # Infrastructure
 
-This project allows to quickly organize you CI/CD pipeline with gitea, drone and registry. This solution is aimed for small teams and projects
+This project allows to quickly organize you CI/CD pipeline with [gitea|https://gitea.io/en-us/], [drone|https://drone.io/] and [registry|https://docs.docker.com/registry/]. This solution is not for production and aimed for small teams and projects.
 
 ### Prerequisites:
 - installed `docker` and `docker-compose`. Guides can be found at official sites: https://docs.docker.com/. Or for ubuntu one can use `install-script.sh` from the root of the project
