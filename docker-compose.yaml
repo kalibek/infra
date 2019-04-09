@@ -4,6 +4,7 @@ volumes:
   pg_data:
   gitea:
   drone:
+  registry:
 
 services:
   db:
@@ -57,6 +58,8 @@ services:
 
   registry:
     image: registry:2
+    volumes:
+      - registry:/var/lib/registry
     restart: always
     ports:
       - "5000:5000"
