@@ -1,6 +1,0 @@
-version: "3"
-services:
-  health:
-    image: ${CHANGE_TO_YOUR_REGISTRY}:5000/health
-    ports:
-      - "4928:4928"

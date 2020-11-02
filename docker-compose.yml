@@ -1,0 +1,70 @@
+version: "3"
+services:
+  gitea:
+    image: gitea/gitea:latest
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - DB_TYPE=postgres
+      - DB_HOST=db:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
+      - SSH_DOMAIN=springdev.ddns.com
+      - SSH_PORT=10022
+    volumes:
+      - gitea_data:/data
+    ports:
+      - "3000:3000"
+      - "10022:10022"
+    depends_on:
+      - db
+  db:
+    image: postgres:11-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  jenkins:
+    image: jenkins/jenkins:lts
+    restart: unless-stopped
+    volumes:
+      - jenkins_data:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+  registry:
+    image: registry:2
+    restart: unless-stopped
+    environment:
+      - "REGISTRY_STORAGE_DELETE_ENABLED=true"
+      - REGISTRY_AUTH='htpasswd'
+      - REGISTRY_AUTH_HTPASSWD_REALM='Private Registry'
+      - REGISTRY_AUTH_HTPASSWD_PATH='/auth/htpasswd'
+      - REGISTRY_HTTP_TLS_CERTIFICATE='/certs/cert.crt'
+      - REGISTRY_HTTP_TLS_KEY='/certs/cert.key'
+    volumes:
+      - registry_data:/var/lib/registry
+      - ./auth:/auth
+      - ./certs:/certs
+    ports:
+      - "5000:5000"
+  registry-browser:
+    restart: unless-stopped
+    image: joxit/docker-registry-ui:static
+    ports:
+      - "28000:80"
+    environment:
+      - REGISTRY_TITLE=My Private Docker Registry
+      - REGISTRY_URL=https://registry:5000
+    depends_on:
+      - registry
+volumes:
+  gitea_data:
+  postgres_data:
+  jenkins_data:
+  registry_data:
